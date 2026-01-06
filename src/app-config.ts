@@ -19,11 +19,11 @@ export interface AppConfig {
 
 export const appConfig: AppConfig = {
   timezone: "Asia/Shanghai",
-  startDate: "2021-05-20",
+  startDate: "2022-04-13",
   weather: {
-    lat: 31.2304,
-    lon: 121.4737,
-    city: "Shanghai",
+    lat: 26.0745,
+    lon: 119.2965,
+    city: "福州",
   },
   qwen: {
     model: "qwen-plus",
