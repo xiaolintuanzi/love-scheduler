@@ -25,7 +25,7 @@ export function buildMessage(input: MessageInput): string {
     "早安呀",
     `${input.date} ${weatherLine.join("，")}`,
     `穿衣建议：${input.outfitAdvice}`,
-    `我们在一起第 ${input.daysTogether} 天啦。`,
+    `今天是我们在一起的第 ${input.daysTogether} 天。`,
     "愿你今天也被温柔照顾。",
   ];
 
