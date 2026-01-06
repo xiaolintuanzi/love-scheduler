@@ -28,7 +28,7 @@ export const appConfig: AppConfig = {
   },
   email: {
     from: "xiaolin <hi@xiaolinbenben.com>",
-    to: "3370942916@qq.com, xiaolinbenben@gmail.com",
+    to: "3370942916@qq.com, 1094695130@qq.com",
     subject: "Good morning",
   },
 };
