@@ -8,5 +8,5 @@ routes = [
 ]
 
 [triggers]
-# 08:30 Asia/Shanghai == 00:30 UTC
-crons = ["30 0 * * *"]
+# TEMP: every 5 minutes for testing
+crons = ["*/2 * * * *"]

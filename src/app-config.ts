@@ -2,9 +2,8 @@ export interface AppConfig {
   timezone: string;
   startDate: string;
   weather: {
-    lat: number;
-    lon: number;
-    city?: string;
+    city: string;
+    cityCode?: string;
   };
   qwen: {
     model: string;
@@ -21,8 +20,6 @@ export const appConfig: AppConfig = {
   timezone: "Asia/Shanghai",
   startDate: "2022-04-13",
   weather: {
-    lat: 26.0745,
-    lon: 119.2965,
     city: "福州",
   },
   qwen: {

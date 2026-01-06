@@ -1,13 +1,21 @@
 import { appConfig, type AppConfig } from "./app-config";
 import type { Bindings } from "./types";
 
+interface NormalizedAppConfig extends AppConfig {
+  weather: {
+    city: string;
+    cityCode?: string;
+    query: string;
+  };
+}
+
 export interface Config {
   timezone: string;
   startDate: string;
   weather: {
-    lat: number;
-    lon: number;
-    city?: string;
+    city: string;
+    query: string;
+    apiKey: string;
   };
   qwen: {
     apiKey: string;
@@ -23,6 +31,7 @@ export interface Config {
 }
 
 export function getConfig(env: Bindings): Config {
+  const amapApiKey = requireEnv(env, "AMAP_API_KEY");
   const qwenApiKey = requireEnv(env, "QWEN_API_KEY");
   const resendApiKey = requireEnv(env, "RESEND_API_KEY");
   const local = normalizeAppConfig(appConfig);
@@ -31,9 +40,9 @@ export function getConfig(env: Bindings): Config {
     timezone: local.timezone,
     startDate: local.startDate,
     weather: {
-      lat: local.weather.lat,
-      lon: local.weather.lon,
       city: local.weather.city,
+      query: local.weather.query,
+      apiKey: amapApiKey,
     },
     qwen: {
       apiKey: qwenApiKey,
@@ -57,16 +66,16 @@ function requireEnv(env: Bindings, key: keyof Bindings): string {
   return value;
 }
 
-function normalizeAppConfig(config: AppConfig): AppConfig {
+function normalizeAppConfig(config: AppConfig): NormalizedAppConfig {
   const timezone = requireString(config.timezone, "timezone");
   const startDate = requireString(config.startDate, "startDate");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
     throw new Error("appConfig.startDate must be YYYY-MM-DD");
   }
 
-  const lat = requireNumber(config.weather.lat, "weather.lat");
-  const lon = requireNumber(config.weather.lon, "weather.lon");
-  const city = config.weather.city?.trim() || undefined;
+  const city = requireString(config.weather.city, "weather.city");
+  const cityCode = config.weather.cityCode?.trim() || undefined;
+  const query = cityCode || city;
 
   const model = requireString(config.qwen.model, "qwen.model");
   const baseUrl = requireString(config.qwen.baseUrl, "qwen.baseUrl");
@@ -84,9 +93,9 @@ function normalizeAppConfig(config: AppConfig): AppConfig {
     timezone,
     startDate,
     weather: {
-      lat,
-      lon,
       city,
+      cityCode,
+      query,
     },
     qwen: {
       model,
@@ -105,11 +114,4 @@ function requireString(value: string, key: string): string {
     throw new Error(`appConfig.${key} is required`);
   }
   return value.trim();
-}
-
-function requireNumber(value: number, key: string): number {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    throw new Error(`appConfig.${key} must be a valid number`);
-  }
-  return value;
 }

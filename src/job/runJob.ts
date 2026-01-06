@@ -17,9 +17,8 @@ export async function runJob(
   console.log(`[job] start ${date} ${config.timezone}`);
 
   const weather = await getDailyWeather(
-    config.weather.lat,
-    config.weather.lon,
-    config.timezone
+    config.weather.query,
+    config.weather.apiKey
   );
   const daysTogether = daysTogetherInclusive(config.startDate, date);
   const outfitAdvice = await generateOutfitAdvice(config.qwen, {
