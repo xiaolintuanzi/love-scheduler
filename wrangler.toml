@@ -1,6 +1,11 @@
 name = "love-scheduler"
 main = "src/index.ts"
 compatibility_date = "2025-01-06"
+workers_dev = false
+
+routes = [
+  { pattern = "love.linzhiqing.dev/*", zone_name = "linzhiqing.dev" }
+]
 
 [triggers]
 # 08:30 Asia/Shanghai == 00:30 UTC
