@@ -11,7 +11,7 @@ export interface AppConfig {
   };
   email: {
     from: string;
-    to: string[];
+    to: string | string[];
     subject: string;
   };
 }
@@ -28,7 +28,7 @@ export const appConfig: AppConfig = {
   },
   email: {
     from: "xiaolin <hi@xiaolinbenben.com>",
-    to: ["3370942916@qq.com"],
+    to: "3370942916@qq.com, xiaolinbenben@gmail.com",
     subject: "Good morning",
   },
 };

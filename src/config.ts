@@ -1,11 +1,16 @@
 import { appConfig, type AppConfig } from "./app-config";
 import type { Bindings } from "./types";
 
-interface NormalizedAppConfig extends AppConfig {
+interface NormalizedAppConfig extends Omit<AppConfig, "weather" | "email"> {
   weather: {
     city: string;
     cityCode?: string;
     query: string;
+  };
+  email: {
+    from: string;
+    to: string[];
+    subject: string;
   };
 }
 
@@ -81,9 +86,7 @@ function normalizeAppConfig(config: AppConfig): NormalizedAppConfig {
   const baseUrl = requireString(config.qwen.baseUrl, "qwen.baseUrl");
 
   const from = requireString(config.email.from, "email.from");
-  const to = config.email.to
-    .map((address) => address.trim())
-    .filter((address) => address.length > 0);
+  const to = normalizeRecipients(config.email.to, "email.to");
   if (to.length === 0) {
     throw new Error("appConfig.email.to must include at least one recipient");
   }
@@ -114,4 +117,19 @@ function requireString(value: string, key: string): string {
     throw new Error(`appConfig.${key} is required`);
   }
   return value.trim();
+}
+
+function normalizeRecipients(value: string | string[], key: string): string[] {
+  if (Array.isArray(value)) {
+    return value
+      .map((address) => requireString(address, key))
+      .filter((address) => address.length > 0);
+  }
+  if (typeof value !== "string") {
+    throw new Error(`appConfig.${key} must be a string or string[]`);
+  }
+  return value
+    .split(",")
+    .map((address) => address.trim())
+    .filter((address) => address.length > 0);
 }
