@@ -9,9 +9,9 @@ export interface MessageInput {
 }
 
 export function buildMessage(input: MessageInput): string {
-  const location = input.city ? `${input.city}的` : "当地";
+  const location = input.city ?? "当地";
   const weatherLine = [
-    `今日${location}天气：${input.weather.condition}`,
+    `${location}的天气：${input.weather.condition}`,
     `${input.weather.minTempC}~${input.weather.maxTempC}°C`,
   ];
   if (input.weather.precipProbability !== undefined) {
@@ -23,7 +23,7 @@ export function buildMessage(input: MessageInput): string {
 
   const lines = [
     "早安呀",
-    `${input.date} ${weatherLine.join("，")}`,
+    `今天是 ${input.date}，${weatherLine.join("，")}`,
     `穿衣建议：${input.outfitAdvice}`,
     `今天是我们在一起的第 ${input.daysTogether} 天。`,
     "愿你今天也被温柔照顾。",
