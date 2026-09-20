@@ -20,7 +20,7 @@ export const appConfig: AppConfig = {
   timezone: "Asia/Shanghai",
   startDate: "2022-04-13",
   weather: {
-    city: "福州",
+    city: "杭州",
   },
   qwen: {
     model: "qwen-plus",
